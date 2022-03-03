@@ -5,6 +5,9 @@ import { setName, setEmail } from "./redux/reducers/userReducer";
 import { setTheme } from "./redux/reducers/themeReducer";
 import { Routes, Route } from "react-router-dom";
 import RouterList from "./routes/router-list";
+import { Template } from "./components/main-components";
+import Header from "./components/partials/Header/index";
+import Footer from "./components/partials/Footer/index";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -12,8 +15,10 @@ export default function App() {
   const theme = useSelector((state) => state.theme);
 
   return (
-    <div>
+    <Template>
+      <Header />
       <RouterList />
-    </div>
+      <Footer />
+    </Template>
   );
 }

@@ -19,6 +19,7 @@ Codesandbox was used to code this project.
 - Redux toolkit (@reduxjs/toolkit)
 - React bootstrap
 - Styled components
+- Feather Icons (react-feather)
 
 ## :rotating_light: How to start
 
