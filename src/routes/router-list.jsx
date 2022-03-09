@@ -4,6 +4,7 @@ import RequireAuth from "../pages/general/require-auth";
 import Home from "../pages/home";
 import Account from "../pages/account";
 import ProductItem from "../pages/product-item";
+import Signin from "../pages/SignIn/index";
 
 const RouterList = () => {
   return (
@@ -19,6 +20,7 @@ const RouterList = () => {
       ></Route>
       <Route path="*" element={<NotFound />}></Route>
       <Route path="/produto/:slug" element={<ProductItem />} />
+      <Route path="/signin" element={<Signin />} />
     </Routes>
   );
 };
