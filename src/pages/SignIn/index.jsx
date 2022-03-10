@@ -10,22 +10,21 @@ import {
   GoogleButton,
   SmallTitle,
   Divisor,
-  Help,
-  ErrorMessage
+  Help
 } from "./style";
 import * as Icon from "react-feather";
 import { Row, Col } from "react-bootstrap";
-import { PageContainer, PageTitle } from "../../components/main-components";
-import { API } from "../../helpers/api";
+import { PageContainer, ErrorMessage } from "../../components/main-components";
+import API from "../../helpers/api";
 import { doLogin } from "../../helpers/auth-handler";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const navigate = useNavigate();
-
+  const api = API();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(false);
-  const [rememberPassword, setRememberPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberPassword, setRememberPassword] = useState(false);
   const [error, setError] = useState("");
 
   const [disabled, setDisabled] = useState(false);
@@ -33,26 +32,24 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     setDisabled(true);
-    const json = await API.login(email, password);
-    console.log(json);
-    //alert(json.error);
+
+    const json = await api.login(email, password);
     if (json.error) {
-      const jsonError = json.error.value;
-      setError(jsonError);
-      alert(jsonError);
+      setError(json.error);
+    } else {
+      doLogin(json.token, rememberPassword);
+      navigate("/");
     }
-    //else {
-    //  doLogin(json.token, rememberPassword);
-    //  navigate("/");
-    //}
+    setDisabled(false);
   };
 
   return (
     <PageContainer>
       <PageArea>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
         <FormContent>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           <SmallTitle>Acesse a sua conta</SmallTitle>
           <div className="social-media">
             <FacebookButton disabled={disabled}>
