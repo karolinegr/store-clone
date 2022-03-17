@@ -1,13 +1,19 @@
 import React from "react";
 import logo from "./assets/logo-nobg.png";
-import { Link } from "react-router-dom";
-import { HeaderArea, StyledButton } from "./style";
+import { Link, useNavigate } from "react-router-dom";
+import { HeaderArea, StyledButton, ButtonLogout } from "./style";
 import { User } from "react-feather";
-
-import { isLogged } from "../../../helpers/auth-handler";
+import { isLogged, doLogout } from "../../../helpers/auth-handler";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   let logged = isLogged();
+
+  const handleLogout = () => {
+    doLogout();
+    window.location.href = "/";
+  };
 
   return (
     <HeaderArea>
@@ -23,10 +29,10 @@ const Header = () => {
               <>
                 <li>
                   <Link to="/signin" className="login">
-                    <span className="login-item">
-                      <User className="icon" size={"20px"} />
+                    <div className="login-item">
+                      <User className="icon" size={"18px"} />
                       <span>Login</span>
-                    </span>
+                    </div>
                   </Link>
                 </li>
                 <li>
@@ -50,7 +56,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/logout">Sair</Link>
+                  <ButtonLogout onClick={handleLogout}>Sair</ButtonLogout>
                 </li>
                 <li>
                   <Link to="/post">

@@ -41,17 +41,21 @@ export const HeaderArea = styled.div`
       li {
         margin: 0 20px;
         font-weight: 600;
+        height: 100%;
+        min-height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
         .login {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
           .icon {
             color: ${textColor};
             margin-right: 5px;
           }
           .login-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             &:hover {
               color: ${hoverText};
               .icon {
@@ -89,5 +93,17 @@ export const StyledButton = styled.button`
 
   &:hover {
     background-color: ${buttonHover};
+  }
+`;
+
+export const ButtonLogout = styled.button`
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: ${textColor};
+  font-size: 14px;
+
+  &:hover {
+    color: ${hoverText};
   }
 `;

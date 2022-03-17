@@ -5,6 +5,7 @@ import Home from "../pages/home";
 import Account from "../pages/account";
 import ProductItem from "../pages/product-item";
 import Signin from "../pages/SignIn/index";
+import Signup from "../pages/SignUp/index";
 
 const RouterList = () => {
   return (
@@ -21,6 +22,7 @@ const RouterList = () => {
       <Route path="*" element={<NotFound />}></Route>
       <Route path="/produto/:slug" element={<ProductItem />} />
       <Route path="/signin" element={<Signin />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 };

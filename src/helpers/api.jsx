@@ -1,7 +1,12 @@
 import Cookies from "js-cookie";
 import qs from "qs";
+import axios from "axios";
 
 const BASE = "http://alunos.b7web.com.br:501";
+const instance = axios.create({
+  baseURL: "http://alunos.b7web.com.br:501",
+  headers: { Accept: "application/json", "Content-Type": "application/json" }
+});
 
 const apiFetchPost = async (endpoint, body) => {
   if (!body.token) {
@@ -11,22 +16,14 @@ const apiFetchPost = async (endpoint, body) => {
     }
   }
 
-  const res = await fetch(BASE + endpoint, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body)
-  });
-  const json = await res.json();
+  const response = await instance.post(endpoint, body);
 
-  if (json.notallowed) {
-    window.location.href = "signin";
+  if (response.notallowed) {
+    window.location.href = "/signin";
     return;
   }
 
-  return json;
+  return response.data;
 };
 
 const apiFetchGet = async (endpoint, body = []) => {

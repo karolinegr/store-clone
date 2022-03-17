@@ -15,16 +15,16 @@ import {
 import * as Icon from "react-feather";
 import { Row, Col } from "react-bootstrap";
 import { PageContainer, ErrorMessage } from "../../components/main-components";
-import API from "../../helpers/api";
+import useAPI from "../../helpers/api";
 import { doLogin } from "../../helpers/auth-handler";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const api = API();
+  const api = useAPI();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberPassword, setRememberPassword] = useState(false);
+  const [rememberPassword, setRememberPassword] = useState(true);
   const [error, setError] = useState("");
 
   const [disabled, setDisabled] = useState(false);
@@ -36,6 +36,7 @@ const Signin = () => {
     setDisabled(true);
 
     const json = await api.login(email, password);
+
     if (json.error) {
       setError(json.error);
     } else {
