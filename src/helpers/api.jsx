@@ -8,7 +8,7 @@ const instance = axios.create({
   headers: { Accept: "application/json", "Content-Type": "application/json" }
 });
 
-const apiFetchPost = async (endpoint, body) => {
+const apiPost = async (endpoint, body) => {
   if (!body.token) {
     let token = Cookies.get("token");
     if (token) {
@@ -26,7 +26,7 @@ const apiFetchPost = async (endpoint, body) => {
   return response.data;
 };
 
-const apiFetchGet = async (endpoint, body = []) => {
+const apiGet = async (endpoint, body = []) => {
   if (!body.token) {
     let token = Cookies.get("token");
     if (token) {
@@ -34,21 +34,23 @@ const apiFetchGet = async (endpoint, body = []) => {
     }
   }
 
-  const res = await fetch(`${BASE + endpoint}?${qs.stringify(body)}`);
-  const json = await res.json();
+  const response = await instance.get(`${endpoint}?${qs.stringify(body)}`);
 
-  if (json.notallowed) {
+  if (response.notallowed) {
     window.location.href = "signin";
     return;
   }
-
-  return json;
+  return response.data;
 };
 
 const API = {
   login: async (email, password) => {
-    const json = await apiFetchPost("/user/signin", { email, password });
+    const json = await apiPost("/user/signin", { email, password });
     return json;
+  },
+  getStates: async () => {
+    const json = await apiGet("/states");
+    return json.states;
   }
 };
 

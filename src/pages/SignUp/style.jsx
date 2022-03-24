@@ -30,8 +30,8 @@ export const FormContent = styled.div`
   justify-content: space-evenly;
   width: 50%;
   min-width: 400px;
-  height: 65%;
-  min-height: 500px;
+  height: 70%;
+  min-height: 650px;
   background-color: #fff;
   padding: 0 30px;
   border-radius: 4px;
@@ -116,4 +116,9 @@ export const Help = styled.div`
   &:hover {
     background-color: rgb(247, 241, 253);
   }
+`;
+
+export const Select = styled.select`
+  padding: 5px 0px;
+  width: 90%;
 `;

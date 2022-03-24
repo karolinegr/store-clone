@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   PageArea,
@@ -10,7 +10,8 @@ import {
   GoogleButton,
   SmallTitle,
   Divisor,
-  Help
+  Help,
+  Select
 } from "./style";
 import * as Icon from "react-feather";
 import { Row, Col, Dropdown } from "react-bootstrap";
@@ -28,8 +29,17 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [stateList, setStateList] = useState([]);
 
   const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    const getStatesList = async () => {
+      const slist = await api.getStates();
+      setStateList(slist);
+    };
+    getStatesList();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +71,7 @@ const Signup = () => {
             <GoogleButton disabled={disabled}>Entrar com o Google</GoogleButton>
           </div>
           <Row className="w-100 d-flex justify-content-between align-items-stretch">
-            <Col xs={8} sm={8} md={8} lg={9} xl={9} className="p-0">
+            <Col xs={8} sm={8} md={8} lg={8} xl={8} className="p-0">
               <FormInput>
                 <FormInput.Group className="mb-3" controlId="formGroupName">
                   <FormInput.Label>Nome</FormInput.Label>
@@ -74,22 +84,22 @@ const Signup = () => {
                 </FormInput.Group>
               </FormInput>
             </Col>
-            <Col xs={3} sm={3} md={3} lg={2} xl={2} className="p-0">
+            <Col xs={3} sm={3} md={3} lg={3} xl={3} className="p-0">
               <FormInput>
-                <FormInput.Group className="mb-3" controlId="formGroupStateLoc">
+                <FormInput.Group controlId="formGroupStateLoc">
                   <FormInput.Label>Estado</FormInput.Label>
-                  <Dropdown>
-                    <Dropdown.Toggle>{stateLoc}</Dropdown.Toggle>
-                    <Dropdown.Menu
-                      style={{ fontSize: "10px", width: "30%" }}
-                      disabled={disabled}
-                      type="text"
-                      value={stateLoc}
-                      onClick={(e) => setStateLoc(e.target.value)}
-                    >
-                      <Dropdown.Item>Teste</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Select
+                    disabled={disabled}
+                    value={stateLoc}
+                    onChange={(e) => setStateLoc(e.target.value)}
+                  >
+                    <option hidden={true}>Estado</option>
+                    {stateList.map((state, index) => (
+                      <option key={index} value={state.name}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </Select>
                 </FormInput.Group>
               </FormInput>
             </Col>
@@ -105,21 +115,21 @@ const Signup = () => {
               />
             </FormInput.Group>
             <FormInput.Group className="mb-3" controlId="formGroupPassword">
-              <Row>
-                <Col xs="5" sm="5" md="6" lg="6">
-                  <FormInput.Label>Senha</FormInput.Label>
-                </Col>
-                <Col xs="7" sm="7" md="6" lg="6">
-                  <LinkStyled to="/forget-password">
-                    Esqueceu sua senha?
-                  </LinkStyled>
-                </Col>
-              </Row>
+              <FormInput.Label>Senha</FormInput.Label>
               <FormInput.Control
                 disabled={disabled}
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormInput.Group>
+            <FormInput.Group className="mb-3" controlId="formGroupPassword">
+              <FormInput.Label>Confirmar senha</FormInput.Label>
+              <FormInput.Control
+                disabled={disabled}
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </FormInput.Group>
             <SignInButton
