@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 import qs from "qs";
 import axios from "axios";
 
-const BASE = "http://alunos.b7web.com.br:501";
 const instance = axios.create({
   baseURL: "http://alunos.b7web.com.br:501",
   headers: { Accept: "application/json", "Content-Type": "application/json" }
@@ -51,6 +50,15 @@ const API = {
   getStates: async () => {
     const json = await apiGet("/states");
     return json.states;
+  },
+  register: async (name, email, password, stateLoc) => {
+    const json = await apiPost("/user/signup", {
+      name,
+      email,
+      password,
+      state: stateLoc
+    });
+    return json;
   }
 };
 

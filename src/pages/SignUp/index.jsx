@@ -46,15 +46,21 @@ const Signup = () => {
     e.stopPropagation();
 
     setDisabled(true);
+    setError("");
 
-    //const json = await api.login(email, password);
-    //
-    //if (json.error) {
-    //  setError(json.error);
-    //} else {
-    //  doLogin(json.token, rememberPassword);
-    //  navigate("/");
-    //}
+    if (password !== confirmPassword) {
+      setError("Senhas não coincidem");
+      setDisabled(false);
+      return;
+    }
+    const json = await api.register(name, email, password, stateLoc);
+
+    if (json.error) {
+      setError(json.error);
+    } else {
+      doLogin(json.token);
+      navigate("/");
+    }
     setDisabled(false);
   };
 
