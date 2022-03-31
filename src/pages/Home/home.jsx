@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import * as Icon from "react-feather";
 import {
   SearchArea,
   SearchBarArea,
   StyledFormControl,
-  SearchButton
+  SearchButton,
+  CategoriesArea,
+  IconArea,
+  TypeCategorieArea,
+  PageArea,
+  AdsArea,
+  SeeAll
 } from "./style";
-import * as Icon from "react-feather";
+import AdItem from "../../components/partials/AdItem/index";
 import { Row, Col, InputGroup } from "react-bootstrap";
 import { PageContainer, ErrorMessage } from "../../components/main-components";
 import useAPI from "../../helpers/api";
@@ -16,29 +23,45 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const api = useAPI();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberPassword, setRememberPassword] = useState(true);
   const [error, setError] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [adsList, setAdsList] = useState([]);
 
-  const [disabled, setDisabled] = useState(false);
+  useEffect(() => {
+    const getCategories = async () => {
+      const cList = await api.getCategories();
+      setCategories(cList);
+    };
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    const getRecentAds = async () => {
+      const response = await api.getAds({
+        sor: "desc",
+        limit: 8
+      });
+      setAdsList(response.ads);
+    };
+    getRecentAds();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    setDisabled(true);
-    setError("");
+    // setDisabled(true);
+    // setError("");
 
-    const json = await api.login(email, password);
+    // const json = await api.login(email, password);
 
-    if (json.error) {
-      setError(json.error);
-    } else {
-      doLogin(json.token, rememberPassword);
-      navigate("/");
-    }
-    setDisabled(false);
+    // if (json.error) {
+    //   setError(json.error);
+    // } else {
+    //   doLogin(json.token, rememberPassword);
+    //   navigate("/");
+    // }
+    // setDisabled(false);
   };
 
   return (
@@ -47,11 +70,40 @@ const Home = () => {
         <SearchBarArea>
           <InputGroup>
             <StyledFormControl placeholder="Estou procurando por..." />
-            <SearchButton id="button-addon2">Button</SearchButton>
+            <SearchButton id="button-addon2">
+              <Icon.Search />
+            </SearchButton>
           </InputGroup>
+          <CategoriesArea>
+            {categories.map((item, index) => {
+              return (
+                <TypeCategorieArea>
+                  <IconArea
+                    to={`/ads?cat=${item.slug}`}
+                    className="categoryItem"
+                  >
+                    <img src={item.img} alt="" />
+                    <div>{item.name}</div>
+                  </IconArea>
+                </TypeCategorieArea>
+              );
+            })}
+          </CategoriesArea>
         </SearchBarArea>
       </SearchArea>
-      <PageContainer></PageContainer>
+      <PageContainer>
+        <PageArea>
+          <h5>Anúncios recentes</h5>
+          <AdsArea>
+            {adsList.map((item, index) => {
+              return <AdItem key={index} data={item} />;
+            })}
+          </AdsArea>
+          <SeeAll>
+            <Link to="">Ver todos >></Link>
+          </SeeAll>
+        </PageArea>
+      </PageContainer>
     </>
   );
 };

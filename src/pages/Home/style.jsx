@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, NavLink } from "react-bootstrap";
 
 // // variables
 // colors
@@ -14,14 +14,16 @@ export const SearchArea = styled.div`
   width: 100%;
   max-width: 2000px;
   min-height: 200px;
-  /* display: flex;
-  justify-content: center; */
 `;
 
 export const SearchBarArea = styled.div`
   margin: 0 auto;
   padding: 20px 50px;
   max-width: 1000px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
 `;
 
 export const StyledFormControl = styled(FormControl)`
@@ -51,13 +53,59 @@ export const SearchButton = styled(Button)`
   }
 `;
 
-// export const PageArea = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100%;
-//   height: 100%;
-// `;
+export const CategoriesArea = styled.div`
+  width: 100%;
+  margin-top: 15px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+export const TypeCategorieArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const IconArea = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  &:hover {
+    color: #fff;
+  }
+`;
+
+export const PageArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 35px 30px;
+`;
+
+export const AdsArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* align-items: space-around; */
+  flex-wrap: wrap;
+`;
+
+export const SeeAll = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 // export const FormContent = styled.div`
 //   display: flex;
 //   flex-direction: column;

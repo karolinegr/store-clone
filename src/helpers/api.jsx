@@ -59,6 +59,14 @@ const API = {
       state: stateLoc
     });
     return json;
+  },
+  getCategories: async () => {
+    const json = await apiGet("/categories");
+    return json.categories;
+  },
+  getAds: async (options) => {
+    const json = await apiGet("/ad/list", options);
+    return json;
   }
 };
 
